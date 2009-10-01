@@ -8,8 +8,7 @@
 \alias{Kernel characteristics}
 \title{Kernel characteristics}
 \description{
-	For a given kernel returns some of the most commonly used numeric values 
-for functionals related to them.
+	For a given kernel these functions return some of the most commonly used numeric values related to them.
 }
 \usage{
 	RK(K)
@@ -23,22 +22,18 @@ for functionals related to them.
   \item{K}{ A kernel as given in \code{\link{Kernels}} }
 }
 \details{
-	These functions returns some of the most commonly used numeric 
-values related to the kernels. They are implemented as an attribute 
+	Most of these functions are implemented as an attribute 
 of every kernel. For the computations of the numeric value for these 
 quantities, see references.
 }
 \value{
 	A numeric value returning:
-\itemize{
-\item{RK}{The $L_2$ norm of \code{K}.}
-\item{RdK}{The $L_2$ norm of the derivative of \code{K}.}
+\item{RK}{The \eqn{L_2} norm of \code{K}.}
+\item{RdK}{The \eqn{L_2} norm of the derivative of \code{K}.}
 \item{mu2K}{The second order moment of \code{K}.}
 \item{mu2K}{The zeroth order moment of \code{K}.}
 \item{dom}{The support of \code{K}.}
 \item{K4}{The fourth order autoconvolution of \code{K} at \eqn{x=0}{x=0}.}
-}
-These functions are implemented via kernel attributes.
 }
 \references{ 
 Fan, J. and Gijbels, I.

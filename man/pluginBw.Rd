@@ -18,7 +18,7 @@ pluginBw(x, y, deg, kernel, weig = rep(1,length(y)))
 	\item{weig}{ Vector of weights for observations.}
 }
 \details{
-    Computes the plug-in bandwidth selector as shown in Fan and Gijbels(1996) book using pilots estimates as given in page 110-112(Rule of thumb for bandwidth selection).  Currently, only even values of p are can be used.
+    Computes the plug-in bandwidth selector as shown in Fan and Gijbels(1996) book using pilots estimates as given in page 110-112 (Rule of thumb for bandwidth selection).  Currently, only even values of p are can be used.
 }
 \value{
 	A numeric value.

@@ -24,12 +24,12 @@
 \arguments{
 	\item{formula}{ formula as in \code{lm}, only first covariate is used. }
 	\item{data}{ data frame with data. }
-	\item{weig}{ Vector of weigths for each observations. }
+	\item{weig}{ Vector of weights for each observations. }
 	\item{bw}{ Smoothing parameter, bandwidth. }
 	\item{kernel}{ Kernel used to perform the estimation, see
         \code{\link{Kernels}}}
-	\item{deg}{ Local polynomial estimation degree($p$). }
-	\item{xeval}{ Vector of evaluation points. }
+	\item{deg}{ Local polynomial estimation degree (\eqn{p}). }
+	\item{xeval}{ Vector of evaluation points. By default \code{xevalLen} points between the min. and the max. of the regressors.}
 	\item{xevalLen}{ Length of \code{xeval} if it is \code{NULL} }
     \item{x}{ A \code{locpol} object. }
     \item{object}{ A \code{locpol} object. }
@@ -39,7 +39,7 @@
 	This is an interface to the local polynomial estimation function 
     that provides basic \code{lm} functionality. \code{summary} and
     \code{print} methods shows very basic information about the fit,
-    \code{fitted} return the estimation of the derivatives if code{deg}
+    \code{fitted} return the estimation of the derivatives if \code{deg}
     is larger than 0, and \code{plot} provides a plot of data, local 
     polynomial estimation and the variance estimation.
     
@@ -52,19 +52,16 @@
 \value{
 	A list containing among other components:
     \item{mf}{ Model frame for \code{data} and \code{formula}. }
-	\item{data}{ data frame with data. }
-	\item{weig}{ Vector of weight for each observations. }
-	\item{xeval}{ Vector of evaluation points. }
-	\item{bw}{ Smoothing parameter, bandwidth. }
-	\item{kernel}{ Kernel used, see \code{\link{Kernels}}}
+    \item{data}{ data frame with data. }
+    \item{weig}{ Vector of weight for each observations.}
+    \item{xeval}{ Vector of evaluation points. }
+    \item{bw}{ Smoothing parameter, bandwidth. }
+    \item{kernel}{ Kernel used, see \code{\link{Kernels}}}
     \item{KName}{ Kernel name, a string with the name of kernel.}
-	\item{deg}{ Local polynomial estimation degree($p$). }
-	\item{X,Y}{ Names in \code{data} of the response and covariate. They
-    are also used in \code{lpFit} to name the fitted data.}
-    \item{residuals} {Residuals of the local polynomial fit.}
-    \item{lpFit} { Data frame with the local polynomial fit. It contains
-    covariate, response, derivatives estimation, $X$ density estimation, 
-    and variance estimation.}
+    \item{deg}{ Local polynomial estimation degree (\eqn{p}).}
+    \item{X,Y}{ Names in \code{data} of the response and covariate. They are also used in \code{lpFit} to name the fitted data.}
+    \item{residuals}{ Residuals of the local polynomial fit.}
+    \item{lpFit}{ Data frame with the local polynomial fit. It contains covariate, response, derivatives estimation, \eqn{X} density estimation, and variance estimation.}
 }
 \references{ 
 Fan, J. and Gijbels, I.
@@ -75,7 +72,7 @@ Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 
-Crist\'obal, J. A. and Alcal\'a, J. T. (2000). 
+Crist'obal, J. A. and Alcal\'a, J. T. (2000). 
 \emph{ Nonparametric regression estimators for length biased data\/}. 
 J. Statist. Plann. Inference, 89, pp. 145-168.
 
@@ -96,13 +93,17 @@ Statistics \& Probability Letters, 22, num. 2, pp. 121-129
     d <- data.frame(x = runif(N))
     d$y <- d$x^2 - d$x + 1 + rnorm(N, sd = 0.1)
     r <- locpol(y~x,d)
-	plot(r)
+    plot(r)
     ##  ex2
     d <- data.frame(x = runif(N))
     d$y <- d$x^2 - d$x + 1 + (1+d$x)*rnorm(N, sd = 0.1)
     r <- locpol(y~x,d)
-	plot(r)
-    ##  length biased data !!
+    plot(r)
+    ## notice:
+    rr <- locpol(y~x,d,xeval=runif(50,-1,1))  
+    ## notice x has null dens. outside (0,1)
+    ## plot(rr) raises an error, no conf. bands outside (0,1).
+    ## length biased data !!
     d <- data.frame(x = runif(10*N))
     d$y <- d$x^2 - d$x + 1 + (rexp(10*N,rate=4)-.25)
     posy <- d$y[ whichYPos <- which(d$y>0) ];
@@ -113,7 +114,7 @@ Statistics \& Probability Letters, 22, num. 2, pp. 121-129
     points(r$lpFit[,r$X],r$lpFit[,r$Y],type="l",col="blue")
     points(rBiased$lpFit[,rBiased$X],rBiased$lpFit[,rBiased$Y],type="l")
     curve(x^2 - x + 1,add=TRUE,col="red")
-    ##  add example with real data !!
+     
 }
 \keyword{ nonparametric }
 \keyword{ smooth }

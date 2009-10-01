@@ -19,7 +19,7 @@ PRDenEstC(x, xeval, bw, kernel, weig = rep(1, length(x)))
 }
 \details{
   Simple Parzen--Rosenblat univariate density estimation, computed using
-  definintion. 
+  definition. 
 }
 \value{
   Returns an \code{(x,den)} data frame.

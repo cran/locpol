@@ -16,7 +16,7 @@ interval=.lokestOptInt)
 	\item{y}{ y response values. }
 	\item{deg}{ degree of the local polynomial. }
 	\item{kernel}{ Kernel used to perform the estimation, see \code{\link{Kernels}}. }
-	\item{weig}{ Vector of weight for observations.}
+	\item{weig}{ Vector of weights for observations.}
 	\item{interval}{ An interval where to look for the bandwidth. }
 }
 \details{

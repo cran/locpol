@@ -12,7 +12,7 @@ equivKernel(kernel,nu,deg,lower=dom(kernel)[[1]],upper=dom(kernel)[[2]],
   \item{nu}{ Orders of derivative to estimate. }
   \item{deg}{ Degree of Local polynomial estimator. }
   \item{kernel}{ Kernel used to perform the estimation, see \code{\link{Kernels}}}
-  \item{lower, upper}{ Itegration limits. }
+  \item{lower, upper}{ Integration limits. }
   \item{subdivisions}{ the maximum number of subintervals. }
 }
 \details{
@@ -22,7 +22,7 @@ implementation uses \code{computeMu} to compute matrix \eqn{S} and then
 returns a function object 
 }
 \value{
-	Returns a vector whose components are the equivalent kenrel used to
+	Returns a vector whose components are the equivalent kernel used to
 compute the local polynomial estimator for the derivatives in \code{nu}.
 }
 \references{ 

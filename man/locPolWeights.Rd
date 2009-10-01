@@ -22,20 +22,21 @@
 	\item{bw}{ Smoothing parameter, bandwidth. }
 	\item{kernel}{ Kernel used to perform the estimation, see \code{\link{Kernels}}}
 	\item{weig}{ Vector of weights for observations. }
-	\item{lpweig}{ Local polynomial weights $(X^TWX)^{-1}X^TW$ evaluated at \code{xeval} matrix. }
+	\item{lpweig}{ Local polynomial weights \eqn{(X^TWX)^{-1}X^TW} evaluated at \code{xeval} matrix. }
 }
 \details{
 	\code{locCteWeightsC} and \code{locLinWeightsC} computes local 
 	constant and local linear weights, say any of the entries of 
-	the vector $(X^TWX)^{-1}X^TW$ for $p=0$ and $p=1$ resp. 
+	the vector \eqn{(X^TWX)^{-1}X^TW} for \eqn{p=0} and \eqn{p=1} resp. 
 	\code{locWeightsEvalC} and \code{locWeightsEval} computes local
 	the estimator for a given vector of responses \code{y}
 }
 \value{
 	\code{locCteWeightsC} and \code{locLinWeightsC} returns a list
 	with two components
-	\item{den}{Estimation of $(n*bw*f(x))^{p+1}$.}
-	\item{locWeig}{$(X^TWX)^{-1}X^TW$ evaluated at \code{xeval} Matrix.}
+	\item{den}{Estimation of \eqn{(n*h*f(x))^{p+1}} being \eqn{h} the
+        bandwidth \code{bw}.}
+	\item{locWeig}{\eqn{(X^TWX)^{-1}X^TW} evaluated at \code{xeval} Matrix.}
 	\code{locWeightsEvalC} and \code{locWeightsEval} returns the
 	vector with the estimation. It performs the matrix multiplication
 	between \code{locWeig} and \code{y} to obtain the estimation at 

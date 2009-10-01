@@ -8,7 +8,8 @@
 Parzen--Rosenblatt density estimator...
 }
 \usage{
-denCVBwSelC(x, kernel = gaussK, weig = rep(1, length(x)), interval = .lokestOptInt)
+denCVBwSelC(x, kernel = gaussK, weig = rep(1, length(x)), 
+            interval = .lokestOptInt)
 }
 \arguments{
 	\item{x}{ vector with data points. }

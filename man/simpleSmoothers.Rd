@@ -27,7 +27,7 @@ does the average with the square of such values.
 }
 \value{
   Both functions returns a \code{data.frame} with
-  \item{ x }{ $x$ evaluation points. }
+  \item{ x }{ \eqn{x} evaluation points. }
   \item{ reg }{ the smoothed values at \code{x} points. }
   ...
 }

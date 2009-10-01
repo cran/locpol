@@ -1,10 +1,31 @@
-1. Put any C/C++/Fortran code in 'src'
-2. If you have compiled code, add a .First.lib() function in 'R'
-   to load the shared library
-3. Edit the help file skeletons in 'man'
-4. Run R CMD build to create the index files
-5. Run R CMD check to check the package
-6. Run R CMD build to make the package file
+
+    locpol package tries to cover Local Polynomial estimation with weights, 
+who has been used by the author to study and make inference for lenght biased 
+data and biased data in general. 
 
 
-Read "Writing R Extensions" for more information.
+
+
+Thanks:
+. José Antonio Cristóbal Cristóbal, José Tomás Alcalá Nalváiz (U. of Zaragoza)
+  who introduced me to the problem of Local Polynomial estimation for biased 
+  data and the compensation.
+. Hiroyuki Kawakatsu (Business School, Dublin City University) who pointed 
+  some bugs in code and docs.
+
+
+
+
+History:
+. 01/07/2002 Implementation of main Local polynomial estimators with weights.
+. 01/04/2005 Compilation of functions in an R package.
+. 01/08/2006 Simple Rd file documentation added.
+. 01/01/2008 First release of the locpol package.
+. 01/10/2009 Fix for some documentation and code related to the degree. Some
+  simple bivariate estimators added.
+
+
+
+
+To Do:
+...

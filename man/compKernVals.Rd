@@ -33,14 +33,12 @@
 }
 \value{
 	A numeric value returning:
-\itemize{
 \item{computeK4}{The fourth order autoconvolution of \code{K}.}
 \item{computeRK}{The second order autoconvolution of \code{K}.}
 \item{computeMu0}{The integral of \code{K}.}
 \item{computeMu2}{The second order moment of \code{K}.}
-\item{computeMu}{The $i$-th order moment of \code{K}.}
+\item{computeMu}{The \eqn{i}-th order moment of \code{K}.}
 \item{Kconvol}{The autoconvolution of \code{K}.}
-}
 These functions are implemented by means of \code{\link{integrate}}.
 }
 \references{ 
