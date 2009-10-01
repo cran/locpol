@@ -32,9 +32,9 @@ attr(gaussKlf,"dom") <- c(-Inf,Inf)
 # Squared kernel
 SqK <- function(x) ifelse( abs(x) <= 1 , 1 , 0 );
 ## OK
-attr(SqK,"RK") <- 2	
-attr(SqK,"RdK") <- 0
-attr(SqK,"mu0K") <-	2
+attr(SqK,"RK") <- 2.0	
+attr(SqK,"RdK") <- 0.0
+attr(SqK,"mu0K") <-	2.0
 attr(SqK,"mu2K") <- 0.666667
 attr(SqK,"K4") <- NA
 
@@ -107,7 +107,7 @@ attr(tricubK,"K4") <- 0.5879012
 attr(tricubK,"dom") <- c(-1,1)
 
 tricubKlf <- function(x) ifelse( abs(x) <= 1 , (1 - abs(x)^3)^3 , 0 );
-## OK
+## OK, (locfit version)
 attr(tricubKlf,"RK") <- 0.94867;
 attr(tricubKlf,"RdK") <- 3.00733
 attr(tricubKlf,"mu0K") <- 1.15714;
@@ -126,8 +126,8 @@ attr(CosK,"K4") <- 0.4464387
 attr(CosK,"dom") <- c(-1,1)
 
 
-.kernelList <- c(  "biweigK", "CosK", "Epa2K", "EpaK", "gaussK", "QuartK",
-                    "SqK","TrianK", "tricubK","TriweigK")
+.kernelList <- c( "gaussK", "EpaK", "Epa2K", "TrianK", "QuartK", "biweigK", 
+                  "TriweigK", "tricubK","CosK",  "SqK" )
 
 
 #	R(K) wrapper
@@ -448,31 +448,42 @@ plot.locpol <- function(x,...)
 #	- Ojito, devuelve 0 si det(X^TWX)=0!!
 #	ERRORES:
 
-.First.lib <- function(lib, pkg) {
+
+##  old s3 classes stuff
+# .First.lib <- function(lib, pkg) {
+#   library.dynam("locpol", pkg, lib)
+# }
+
+
+##  s4 classes dim lib load stuff
+.onLoad <- function(lib, pkg) {
   library.dynam("locpol", pkg, lib)
 }
+
 
 .maxEvalPts <- 5000
 .lokestOptInt <- c(0.0005,1.5)
 
 selKernel <- function(kernel)
 {
-	if( RK(kernel)==0.6 )	## Epanechnikov kernel(ok)
+	if( RK(kernel)==0.6 )	## Epanechnikov kernel(ok R)
 		return(1)
-	else if ( RK(kernel)==0.1968 )	## 2nd. Epanechnikov kernel(ok)
+	else if ( RK(kernel)==0.1968 )	## 2nd. Epanechnikov kernel(ok R)
 		return(2)
-	else if ( RK(kernel)==0.666667 )	## Triangle kernel(ok)
+	else if ( RK(kernel)==0.666667 )	## Triangle kernel(ok R)
 		return(3)
-	else if ( RK(kernel)==0.714286 )	## Quartic kernel
+	else if ( RK(kernel)==0.714286 )	## Quartic kernel(ok R)
 		return(4)
-	else if ( RK(kernel)==0.812698 )	## biweight kernel
+	else if ( RK(kernel)==0.812698 )	## biweight kernel(ok R)
 		return(5)
-	else if ( RK(kernel)==0.815851 )	## Triweigth kernel
+	else if ( RK(kernel)==0.815851 )	## Triweigth kernel(ok R)
 		return(6)
-	else if ( RK(kernel)==0.708502 )	## tricube kernel
+	else if ( RK(kernel)==0.708502 )	## tricube kernel(ok R)
 		return(7)
-	else if ( RK(kernel)==0.6168 )		## cosin kernel
-		return(9)
+	else if ( RK(kernel)==0.6168 )		## cosin kernel(ok R)
+		return(9)	
+  else if ( RK(kernel)==2.0 )		    ## Square kernel(ok R)
+		return(10)
 	else 	## gaussian kernel
 		return(0)	
 }
@@ -543,7 +554,7 @@ PRDenEstC <- function(x,xeval,bw,kernel,weig = rep(1,length(x)))
 	den <- .C("parzenRossen",
     	as.double(xeval),as.integer(length(xeval)),
      	as.double(x),as.double(weig),as.integer(length(x)),
-		as.double(bw), as.integer(Ktype),
+		  as.double(bw), as.integer(Ktype),
      	res = double(length(xeval)), PACKAGE="locpol"
 		)$res
 	res <- data.frame(x = xeval, den = den)
@@ -980,7 +991,7 @@ compDerEst <- function(x,y,p,weig=rep(1,length(y)))
 	xnam <- paste("x^", 2:(p+3), sep="")
 	xnam <- paste("I(",xnam, ")")
 	fmla <- as.formula(paste("y ~ 1 + x + ", paste(xnam, collapse= "+")))
-	lmFit <- lm(fmla,data=data.frame(x,y),weight=weig)
+	lmFit <- lm(fmla,data=data.frame(x,y),weights=weig)
 	##	compute (p+1)-der 
 	cp <- cumprod(1:(p+3))
 	coef <- coefficients(lmFit)
@@ -1011,6 +1022,7 @@ thumbBw <- function(x,y,deg,kernel,weig=rep(1,length(y)))
 					upper=dom(kernel)[[2]],subdivisions=100)
 	##valor de h
 	res <- cte * (numer/denom)^(1/(2*deg+k))
+  return( res )
 }
 
 
@@ -1032,8 +1044,8 @@ pluginBw <- function(x,y,deg,kernel,weig=rep(1,length(y)))
 	numer <- mean( res^2 )
 	## compute loo der.
 	thBwBis <- thumbBw(x, y, deg+2, kernel)
-	derBw <- adjNuK(deg+1,deg+2,kernel,lo=dom(kernel)[[1]],
-					up=dom(kernel)[[2]],subdiv=50) * thBwBis			
+	derBw <- adjNuK(deg+1,deg+2,kernel,lower=dom(kernel)[[1]],
+					upper=dom(kernel)[[2]],subdivisions=50) * thBwBis			
 	regCompBis <- looLocPolSmootherC(x, y, derBw, deg+2, kernel, weig)
 	cp <- cumprod(1:(deg+2))
 	der <- regCompBis[,1+deg+2]/cp[[deg+1]]

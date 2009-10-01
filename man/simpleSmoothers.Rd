@@ -31,12 +31,11 @@ does the average with the square of such values.
   \item{ reg }{ the smoothed values at \code{x} points. }
   ...
 }
-\references{ 
-}
+% \references{ }
 \author{
   Jorge Luis Ojeda Cabrera. 
 }
-\note{ }
+% \note{ }
 
 \seealso{ 
   \code{\link{PRDenEstC}}, \code{\link{Kernel characteristics}}

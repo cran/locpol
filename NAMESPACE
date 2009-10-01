@@ -1,0 +1,9 @@
+# Default NAMESPACE created by R
+# Remove the previous line if you edit this file
+
+# dlls
+useDynLib(locpol)
+
+
+# Export all names
+exportPattern(".")

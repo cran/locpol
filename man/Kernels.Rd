@@ -34,9 +34,7 @@ functions that can operate on vectors.
   Most common referred numeric values for these kernels are provided as
 attributes, see \code{\link{RK}}, \code{\link{mu0K}}, etc\dots.
 }
-\value{
-  
-}
+% \value{  }
 \references{ 
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.

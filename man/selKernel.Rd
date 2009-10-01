@@ -23,16 +23,14 @@ purposes.
 \value{
   An integer that is unique for each kernel.
 }
-\references{
-}
+% \references{ }
 \author{ Jorge Luis Ojeda Cabrera. 
 }
-\note{ 
-}
+% \note{ }
 \section{Warning }{  
 	Used only for internal purposes. 
 }
-\seealso{}
+% \seealso{}
 
 \keyword{ nonparametric }
 \keyword{ smooth }

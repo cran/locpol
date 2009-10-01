@@ -52,8 +52,7 @@ estimators.
     \item{H}{ Bandwidth matrix }
     \item{estFun}{Estimator function. }
 }
-\references{ 
-}
+% \references{ }
 \author{ Jorge Luis Ojeda Cabrera. 
 }
 \examples{

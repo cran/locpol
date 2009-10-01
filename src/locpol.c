@@ -13,6 +13,7 @@
 
 
 #define CUAD(x) ((x)*(x))
+#define TRI(x) ((x)*(x)*(x)) /* Added by Marek Omelka */
 #define MAXDEG 10
 #define MAXEVALPTS 1500
 #define MAXS 100
@@ -69,13 +70,31 @@ double TrianK(double x)
 double QuartK(double x)
 /*	Quartic kernel	*/
 {
-	if(fabs(x) <= 1) return( 15/16 * CUAD(1 - x*x) ); else return( 0 );
+	if(fabs(x) <= 1) return( 15./16. * CUAD(1 - x*x) ); else return( 0 );
 }
 
 double biweigK(double x)
 /*	biweight kernel	*/
 {
 	if(fabs(x) <= 1) return( CUAD(1 - x*x) ); else return( 0 );
+}
+
+double TriweigK(double x)
+/*  triweight kernel, added by Marek Omelka. */
+{
+  if(fabs(x) <= 1) return( 35./32.*TRI(1 - x*x) ); else return( 0 );
+}
+
+double tricubK(double x)
+/*  tricube kernel */
+{
+  if(fabs(x) <= 1) return( 70./81.*TRI( 1-TRI(fabs(x)) ) ); else return( 0 );
+}
+
+double CosK(double x)
+/*  cosin kernel */
+{
+  if(fabs(x) <= 1) return( M_PI/4*cos(M_PI*x/2) ); else return( 0 );
 }
 
 /* Selector del kernel */
@@ -95,11 +114,15 @@ funPtr selKernel(int Ktype)
 			return( &QuartK );
 		case 5:
 			return( &biweigK );
+		case 6:
+      return( &TriweigK ); /* added by Marek Omelka. */
+		case 7:
+			return( &tricubK );
+		case 9:
+ 			return( &CosK );
 		case 10:
 			return( &SqK );
-		case 6:
-		case 7:
-		case 8:
+    case 8:
 		default:
 			return( &gaussK);
 	}

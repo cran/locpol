@@ -39,7 +39,6 @@ Chapman and Hall Ltd., London (1995).
 }
 \seealso{ \code{\link{regCVBwSelC}}, \code{\link{pluginBw}}, \code{\link{integrate}}.
 }
-\examples{
-}
+% \examples{}
 \keyword{ nonparametric }
 \keyword{ smooth }
