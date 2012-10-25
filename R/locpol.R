@@ -824,6 +824,38 @@ regCVBwSelC <- function(x,y,deg,kernel=gaussK,weig=rep(1,length(y)),
 
 
 
+# locPolWeights.R
+#
+# NOTAS:
+# ERRORES:
+
+
+locPolWeights <- function (x, xeval, deg, bw, kernel, 
+                           weig=rep(1,length(x))) 
+# Suggestion from munevvere@hotmail.com 
+{
+  stopifnot( length(x)==length(weig), bw>0, deg>=0 )
+  den <- array( dim=length(xeval),dimnames=list(x=1:length(xeval)) )
+  res <- array( dim=c(length(xeval),deg+1,length(x)),
+                dimnames=list(x=1:length(xeval),deg=0:deg,xData=1:length(x)))
+  for(i in 1:length(xeval)) 
+  {
+    xx <- xeval[i]
+    dMat <- (x-xx)/bw
+    xx <- outer(dMat, 0:deg, function(a, b) a^b)
+    w <- diag(kernel(dMat)*weig)
+    aux <- t(xx) %*% w
+    sMat <- aux %*% xx
+    den[i] <- det(sMat)
+    res[i,,] <- solve(sMat,aux)/bw^(0:deg)
+  }
+  invisible( list(den=den*bw^deg,locWeig=res[,1,],allWeig=res) ) 
+}
+
+
+
+
+
 # mvNoparEst.R
 #   Multivariate density and regression.
 # NOTAS:
