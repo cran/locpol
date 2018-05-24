@@ -1,31 +1,49 @@
+## AIM
 
-    locpol package tries to cover Local Polynomial estimation with weights, 
-who has been used by the author to study and make inference for lenght biased 
-data and biased data in general. 
-
-
-
-
-Thanks:
-. José Antonio Cristóbal Cristóbal, José Tomás Alcalá Nalváiz (U. of Zaragoza)
-  who introduced me to the problem of Local Polynomial estimation for biased 
-  data and the compensation.
-. Hiroyuki Kawakatsu (Business School, Dublin City University) who pointed 
-  some bugs in code and docs.
+    `locpol` package tries to cover Local Polynomial estimation with weights. The package has been used by the author to study and make inference for lenght biased data and biased data in general. 
 
 
 
 
-History:
-. 01/07/2002 Implementation of main Local polynomial estimators with weights.
-. 01/04/2005 Compilation of functions in an R package.
-. 01/08/2006 Simple Rd file documentation added.
-. 01/01/2008 First release of the locpol package.
-. 01/10/2009 Fix for some documentation and code related to the degree. Some
-  simple bivariate estimators added.
+## Thanks
+
+* José Antonio Cristóbal Cristóbal, José Tomás Alcalá Nalváiz (U. of Zaragoza) who introduced me to the problem of Local Polynomial estimation for biased data and the compensation strategy.
+
+* Other contributions:  
+    + Hiroyuki Kawakatsu (Business School, Dublin City University) who pointed some bugs in code and docs.
 
 
 
 
-To Do:
-...
+## a little History
+
+* __01/07/2002__  
+Implementation of main Local polynomial estimators with weights for the simmulation of the phd..
+* __01/04/2005__  
+Compilation of functions in an R package.
+* __01/08/2006__  
+Simple Rd file documentation added.
+* __01/01/2008__  
+First release of the locpol package.
+* __01/10/2009__  
+Fix for some documentation and code related to the degree. 
+* __01/10/2012__  
+Fix for some documentation and code bugs. Some simple bivariate estimators added.
+* __25/05/2018__  
+
+
+
+
+## To Do:
+
+* __TODO__  
+Study and implement bayessian bandwith selection
+
+* __TODO__  
+Implement `predict()` and `confint()` methods
+
+* ...
+
+
+
+

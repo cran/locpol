@@ -20,7 +20,7 @@ attr(gaussK,"K4") <- 0.1994711
 attr(gaussK,"dom") <- c(-Inf,Inf)
 
 # Gaussian kernel(locfit version)
-gaussKlf <- function(x) exp(-(2.25 * x)^2);	## va ahí el signo '-'
+gaussKlf <- function(x) exp(-(2.25 * x)^2);	
 ## OK
 attr(gaussKlf,"RK") <- 0.557029	
 attr(gaussKlf,"RdK") <- 2.81996
@@ -151,7 +151,7 @@ dom <- function(K) return( attr(K,"dom") )
 
 
 ##
-##	Construcción del kernel evquivalente
+##	Building equivalent kernel 
 ##
 equivKernel <- function(kernel,nu,deg,
 			lower=dom(kernel)[[1]],upper=dom(kernel)[[2]],subdivisions=25)
@@ -176,7 +176,7 @@ equivKernel <- function(kernel,nu,deg,
 }
 
 ##
-##	Construcción C_{\nu p}(K)
+##	Building C_{\nu p}(K)
 ##
 cteNuK <- function(nu,p,kernel,
 			lower=dom(kernel)[[1]],upper=dom(kernel)[[2]],subdivisions=25)
@@ -205,8 +205,7 @@ cteNuK <- function(nu,p,kernel,
 }
 
 ##
-##	Construcción adj_{\nu p}(K), para ajustar el bandwidth a la estimación de 
-##	derivadas.
+##	Building adj_{\nu p}(K), to compute derivative estimation bandwidth.
 ##
 adjNuK <- function(nu,p,kernel,
 			lower=dom(kernel)[[1]],upper=dom(kernel)[[2]],subdivisions=25)
@@ -310,141 +309,43 @@ computeMu <- function(i,kernel,
 	return( integrate(f,lower,upper,subdivisions=subdivisions)$value )
 }
 
-# locpolClass.R
-#  local polynomial class
-# NOTES:
-#  -- Bias estimations !! ??
-#  -- Keep track of errors... So you'll be able to give always
-#	a suggestion in case errors appears
-#  -- Imporve error messages !!
-# ERRORS:
+# locPolWeights.R
+#
+# NOTAS:
+# ERRORES:
 
 
-
-
-locpol <- function(formula, data, weig=rep(1,nrow(data)),
-                   bw=NULL, kernel=EpaK, deg=1, xeval=NULL,xevalLen=100)
-##	
+locPolWeights <- function (x, xeval, deg, bw, kernel, 
+                           weig=rep(1,length(x))) 
+# Suggestion from munevvere@hotmail.com 
 {
-    ##  checking
-    stopifnot(nrow(data)==length(weig))
-    ## compute result
-    res <- list()
-    res$bw <- bw
-    res$KName <- match.call()
-    res$kernel <- kernel
-    res$deg <- deg
-    res$xeval <- xeval
-    ## get info from formula
-    res$mf <- model.frame(formula,data)
-    datCla <- attr(attr(res$mf, "terms"),"dataClasses") 
-    varNames <- names(datCla)[datCla=="numeric"] 
-    stopifnot(length(varNames)==2) 
-    res$Y <- varNames[1] 
-    res$X <- varNames[2] 
-    ##	sort x's
-    xo <- order(res$mf[,res$X])
-    res$mf <- res$mf[xo,]
-    res$weig <- weig[xo]
-    ## xeval
-    if( is.null(xeval) )
-        res$xeval <- seq(min(res$mf[,res$X]),max(res$mf[,res$X]),len=xevalLen)
-      else 
-        res$xeval <- sort(xeval)
-    if( is.null(res$bw) ) 
-        res$bw <- regCVBwSelC(data[,res$X],data[,res$Y],res$deg,
-                    res$kernel,res$weig)
-    ## regression estimation
-    res$lpFit <- locPolSmootherC(res$mf[,res$X], res$mf[,res$Y], res$xeval, 
-                    res$bw, res$deg, res$kernel, DET = TRUE, res$weig )
-    names(res$lpFit)[] <- c(res$X,res$Y,paste(res$Y,1:deg,sep=""),"xDen")
-    res$lpFit$xDen <- res$lpFit$xDen^(1/(deg+1))/(nrow(data)*res$bw)
-    ## CI comp.(##Should depned on nu, to be able to)
-    nu <- 0
-    res$CIwidth <- computeRK(equivKernel(kernel,nu,deg),
-                    lower=dom(res$kernel)[[1]], upper=dom(res$kernel)[[2]], 
-                    subdivisions = 25) * factorial(nu)^2 
-    res$CIwidth <- res$CIwidth / ( nrow(data)*res$bw )
-    ## residuals
-    res$residuals <- res$mf[,res$Y]-locLinSmootherC(res$mf[,res$X],
-                res$mf[,res$Y], res$mf[,res$X],res$bw, res$kernel, 
-                res$weig)$beta0 
-    ## variance estimation
-    res$lpFit$var <- locCteSmootherC(res$mf[,res$X], res$residuals^2, 
-                res$xeval,1.2*res$bw, res$kernel, res$weig)$beta0                 
-    ## setupclass
-    class(res) <- "locpol"
-    return(res)
+  stopifnot( length(x)==length(weig), bw>0, deg>=0 )
+  den <- array( dim=length(xeval),dimnames=list(x=1:length(xeval)) )
+  res <- array( dim=c(length(xeval),deg+1,length(x)),
+                dimnames=list(x=1:length(xeval),deg=0:deg,xData=1:length(x)))
+  for(i in 1:length(xeval)) 
+  {
+    xx <- xeval[i]
+    dMat <- (x-xx)/bw
+    xx <- outer(dMat, 0:deg, function(a, b) a^b)
+    w <- diag(kernel(dMat)*weig)
+    aux <- t(xx) %*% w
+    sMat <- aux %*% xx
+    den[i] <- det(sMat)
+    res[i,,] <- solve(sMat,aux)/bw^(0:deg)
+  }
+  invisible( list(den=den*bw^deg,locWeig=res[,1,],allWeig=res) ) 
 }
 
 
-residuals.locpol <- function(object,...)
-##	
-{
-    return( object$residuals )
-}
 
 
-fitted.locpol <- function(object,deg=0,...)
-##	
-{
-    stopifnot(object$deg>=deg)
-    return( object$lpFit[,2+deg] )
-}
-
-
-summary.locpol <- function(object,...)
-##	
-{
-    cat("\nKernel = \n\t")
-    print( body(object$kernel) )
-    cat("\n")
-    print(  data.frame(n=nrow(object$mf), deg=object$deg, bw=object$bw,
-            ase=mean(resid(object)^2), row.names=" ") )
-}
-
-
-print.locpol <- function(x,...)
-##	
-{
-    summary.locpol(x)
-}
-
-
-confInterval <- function(x)
-##
-{
-    plot(x$mf[,x$X],x$mf[,x$Y],pch="+",main="95% Conf. Int. for x-Points",
-			xlab=x$X,ylab=x$Y )
-    points(x$lpFit[,x$X],x$lpFit[,x$Y],type="l",col="darkgreen")
-    dev <- sqrt(x$CIwidth * x$lpFit$var/x$lpFit$xDen)
-    points(x$lpFit[,x$X],x$lpFit[,x$Y]+2*dev,type="l",col="green")
-    points(x$lpFit[,x$X],x$lpFit[,x$Y]-2*dev,type="l",col="green")
-}
-
-
-plot.locpol <- function(x,...)
-##	
-{
-    par(ask=TRUE,cex=.6)
-    plot(x$mf[,x$X],x$mf[,x$Y],pch="+",main="Data and Regres.",
-        xlab=x$X,ylab=x$Y )
-    points(x$lpFit[,x$X],x$lpFit[,x$Y],type="l",col="blue")
-    ym <- max(x$lpFit$xDen)
-    plot(x$lpFit[,c(x$X,"xDen")], main="X dens.",type="l",ylim=c(0,1.25*ym), 
-        xlab=x$X,ylab="den" )
-    ym <- max(x$lpFit$var)
-    plot(x$lpFit[,c(x$X,"var")], main="Var.",type="l",ylim=c(0,1.25*ym),
-        xlab=x$X,ylab="var" )
-    confInterval(x)
-    par(ask=FALSE)
-}
 
 #
 #	locpol.R
 #		Interface para el polinomio local en C
 #	NOTAS:
-#	- Añadir todos los kernels...
+#	- A?adir todos los kernels...
 #	- Ojito, devuelve 0 si det(X^TWX)=0!!
 #	ERRORES:
 
@@ -505,7 +406,7 @@ locWeightsEvalC <- function(lpweig,y)
 # 	y = eval. points.
 {
 	stopifnot(	ncol(lpweig) == length(y), nrow(lpweig)<.maxEvalPts )
-	res <- .C("locWeightsEval",
+	res <- .C("locWeightsEvalxx",
 		as.double(lpweig),as.integer(nrow(lpweig)),
 		as.double(y),as.integer(length(y)),
 		res=double(nrow(lpweig)), PACKAGE="locpol"
@@ -637,7 +538,7 @@ locLinSmootherC <- function(x,y,xeval,bw,kernel,weig = rep(1,length(y)))
 		PACKAGE="locpol"
 		)
 	res <- data.frame(x=xeval, beta0=res$beta0, beta1=res$beta1, den=res$den) 
-    return( res )
+  return( res )
 }
 
 locLinWeightsC <- function(x,xeval,bw,kernel,weig = rep(1,length(x)))
@@ -824,37 +725,133 @@ regCVBwSelC <- function(x,y,deg,kernel=gaussK,weig=rep(1,length(y)),
 
 
 
-# locPolWeights.R
-#
-# NOTAS:
-# ERRORES:
+# locpolClass.R
+#  local polynomial class
+# NOTES:
+#  -- Bias estimations !! ??
+#  -- Keep track of errors... So you'll be able to give always
+#	a suggestion in case errors appears
+#  -- Imporve error messages !!
+# ERRORS:
 
 
-locPolWeights <- function (x, xeval, deg, bw, kernel, 
-                           weig=rep(1,length(x))) 
-# Suggestion from munevvere@hotmail.com 
+locpol <- function(formula, data, weig=rep(1,nrow(data)),
+                   bw=NULL, kernel=EpaK, deg=1, xeval=NULL,xevalLen=100)
+##	
 {
-  stopifnot( length(x)==length(weig), bw>0, deg>=0 )
-  den <- array( dim=length(xeval),dimnames=list(x=1:length(xeval)) )
-  res <- array( dim=c(length(xeval),deg+1,length(x)),
-                dimnames=list(x=1:length(xeval),deg=0:deg,xData=1:length(x)))
-  for(i in 1:length(xeval)) 
-  {
-    xx <- xeval[i]
-    dMat <- (x-xx)/bw
-    xx <- outer(dMat, 0:deg, function(a, b) a^b)
-    w <- diag(kernel(dMat)*weig)
-    aux <- t(xx) %*% w
-    sMat <- aux %*% xx
-    den[i] <- det(sMat)
-    res[i,,] <- solve(sMat,aux)/bw^(0:deg)
-  }
-  invisible( list(den=den*bw^deg,locWeig=res[,1,],allWeig=res) ) 
+    ##  checking
+    stopifnot(nrow(data)==length(weig))
+    ## compute result
+    res <- list()
+    res$bw <- bw
+    res$KName <- match.call()
+    res$kernel <- kernel
+    res$deg <- deg
+    res$xeval <- xeval
+    ## get info from formula
+    res$mf <- model.frame(formula,data)
+    datCla <- attr(attr(res$mf, "terms"),"dataClasses") 
+    varNames <- names(datCla)[datCla=="numeric"] 
+    stopifnot(length(varNames)==2) 
+    res$Y <- varNames[1] 
+    res$X <- varNames[2] 
+    ##	sort x's
+    xo <- order(res$mf[,res$X])
+    res$mf <- res$mf[xo,]
+    res$weig <- weig[xo]
+    ## xeval
+    if( is.null(xeval) )
+        res$xeval <- seq(min(res$mf[,res$X]),max(res$mf[,res$X]),len=xevalLen)
+      else 
+        res$xeval <- sort(xeval)
+    if( is.null(res$bw) ) 
+        res$bw <- regCVBwSelC(data[,res$X],data[,res$Y],res$deg,
+                    res$kernel,res$weig)
+    ## regression estimation
+    res$lpFit <- locPolSmootherC(res$mf[,res$X], res$mf[,res$Y], res$xeval, 
+                    res$bw, res$deg, res$kernel, DET = TRUE, res$weig )
+    names(res$lpFit)[] <- c(res$X,res$Y,paste(res$Y,1:deg,sep=""),"xDen")
+    res$lpFit$xDen <- res$lpFit$xDen^(1/(deg+1))/(nrow(data)*res$bw)
+    ## CI comp.(##Should depned on nu, to be able to)
+    nu <- 0
+    res$CIwidth <- computeRK(equivKernel(kernel,nu,deg),
+                    lower=dom(res$kernel)[[1]], upper=dom(res$kernel)[[2]], 
+                    subdivisions = 25) * factorial(nu)^2 
+    res$CIwidth <- res$CIwidth / ( nrow(data)*res$bw )
+    ## residuals
+    res$residuals <- res$mf[,res$Y]-locLinSmootherC(res$mf[,res$X],
+                res$mf[,res$Y], res$mf[,res$X],res$bw, res$kernel, 
+                res$weig)$beta0 
+    ## variance estimation
+    res$lpFit$var <- locCteSmootherC(res$mf[,res$X], res$residuals^2, 
+                res$xeval,1.2*res$bw, res$kernel, res$weig)$beta0                 
+    ## setupclass
+    class(res) <- "locpol"
+    return(res)
 }
 
 
+residuals.locpol <- function(object,...)
+##	
+{
+    return( object$residuals )
+}
 
 
+fitted.locpol <- function(object,deg=0,...)
+##	
+{
+    stopifnot(object$deg>=deg)
+    return( object$lpFit[,2+deg] )
+}
+
+
+summary.locpol <- function(object,...)
+##	
+{
+    cat("\nKernel = \n\t")
+    print( body(object$kernel) )
+    cat("\n")
+    print(  data.frame(n=nrow(object$mf), deg=object$deg, bw=object$bw,
+            ase=mean(resid(object)^2), row.names=" ") )
+}
+
+
+print.locpol <- function(x,...)
+##	
+{
+    summary.locpol(x)
+}
+
+
+confInterval <- function(x)
+##
+{
+    plot(x$mf[,x$X],x$mf[,x$Y],pch="+",main="95% Conf. Int. for x-Points",
+			xlab=x$X,ylab=x$Y )
+    points(x$lpFit[,x$X],x$lpFit[,x$Y],type="l",col="darkgreen")
+    dev <- sqrt(x$CIwidth * x$lpFit$var/x$lpFit$xDen)
+    points(x$lpFit[,x$X],x$lpFit[,x$Y]+2*dev,type="l",col="green")
+    points(x$lpFit[,x$X],x$lpFit[,x$Y]-2*dev,type="l",col="green")
+}
+
+
+plot.locpol <- function(x,...)
+##	
+{
+    par(ask=TRUE,cex=.6)
+    plot(x$mf[,x$X],x$mf[,x$Y],pch="+",main="Data and Regres.",
+        xlab=x$X,ylab=x$Y )
+    points(x$lpFit[,x$X],x$lpFit[,x$Y],type="l",col="blue")
+    ym <- max(x$lpFit$xDen)
+    plot(x$lpFit[,c(x$X,"xDen")], main="X dens.",type="l",ylim=c(0,1.25*ym), 
+        xlab=x$X,ylab="den" )
+    ym <- max(x$lpFit$var)
+    plot(x$lpFit[,c(x$X,"var")], main="Var.",type="l",ylim=c(0,1.25*ym),
+        xlab=x$X,ylab="var" )
+    confInterval(x)
+    par(ask=FALSE)
+}
 
 # mvNoparEst.R
 #   Multivariate density and regression.

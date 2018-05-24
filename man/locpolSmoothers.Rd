@@ -60,7 +60,7 @@ Chapman and Hall Ltd., London (1995).
 \author{ Jorge Luis Ojeda Cabrera. 
 }
 \seealso{ \code{\link{locpoly}} from package \pkg{KernSmooth}, 
-\code{\link{ksmooth}} and \code{\link{loess}} from package \pkg{modreg}.
+\code{\link{ksmooth}} and \code{\link{loess}} in \pkg{stats} (but from earlier package \code{modreg}).
 }
 \examples{
 N <- 100

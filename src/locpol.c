@@ -2,8 +2,8 @@
  * 	locpol.c
  * 		Funciones para el polinomio local en C
  * 	NOTES:
- *		- Añadir todos los kernels....
- *		- Mejorar la convolución utilizando simpson...
+ *		- A?adir todos los kernels....
+ *		- Mejorar la convoluci?n utilizando simpson...
  *      - Uses linpack.h routines dpoco_, dpodi_, dposl_
  * 	ERRORS:
  */
@@ -26,10 +26,10 @@
  * 	kernel.c
  * 		Funciones para el polinomio local en C
  * 	NOTES:
- *		- Añadir todos los kernels....
- *		- Mejorar la convolución utiulizando simpson...
- *		- El selector del kernel debería basarse en RK(), así la 
- *		función en R pasa RK() y aquí se compara con los diferentes 
+ *		- A?adir todos los kernels....
+ *		- Mejorar la convoluci?n utiulizando simpson...
+ *		- El selector del kernel deber?a basarse en RK(), as? la 
+ *		funci?n en R pasa RK() y aqu? se compara con los diferentes 
  *		RK() con una cierta tolerancia.
  * 	ERRORS:
  */
@@ -156,7 +156,7 @@ double Kconvol(funPtr kernel,double x)
  * 	lpest.c
  * 		Funciones para el polinomio local en C
  * 	NOTES:
- *		- Por fin salió el caso general.
+ *		- Por fin sali? el caso general.
  * 	ERRORS:
  */
 
@@ -183,7 +183,7 @@ void parzenRossen(	double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		res[i] = 0.;
@@ -221,7 +221,7 @@ void simpleSmoother(double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		res[i] = 0.;
@@ -237,20 +237,20 @@ void simpleSmoother(double *xeval, int *neval,
 /*
  * loc. pol. estimators.
  */
- void locWeightsEval(double *lpweig, int *neval,
+ void locWeightsEvalxx(double *lpweig, int *neval,
 					double *y, int*n, double *res)
 /*
 	lpweig = neval x n matrix 
 	neval = number of  eval. points.
 	y = y data vector.
-	den = vector el denominador de cada estimación. 
+	den = vector el denominador de cada estimaci?n. 
 	res = result matrix, len(xeval) x n dimension. 
 */
 {
 	int i,j;
 	/*QUITAR:double wsum;*/
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		res[i] = 0.;
@@ -273,7 +273,7 @@ void locCteSmoother(double *xeval, int *neval,
 	n = number of data obs. length of 'x' and 'y'.
 	bw = bandwidth.
 	Ktype = tipo de kernel:0=gaussK,1=EpaK,2=Epa2K,3=TrianK}
-	den = vector el denominador de cada estimación. 
+	den = vector el denominador de cada estimaci?n. 
 	res = result vector. 
 */
 {
@@ -284,7 +284,7 @@ void locCteSmoother(double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		s0 = t0 = 0.;
@@ -313,7 +313,7 @@ void locCteWeights(double *xeval, int *neval,
 	n = number of data obs. length of 'x' and 'y'.
 	bw = bandwidth.
 	Ktype = tipo de kernel:0=gaussK,1=EpaK,2=Epa2K,3=TrianK}
-	den = vector el denominador de cada estimación. 
+	den = vector el denominador de cada estimaci?n. 
 	res = result matrix, len(xeval) x n dimension. 
 */
 {
@@ -324,7 +324,7 @@ void locCteWeights(double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		s0sum = 0.;
@@ -356,7 +356,7 @@ void locLinSmoother(double *xeval, int *neval,
  * 	n = number of data obs. length of 'x' and 'y'.
  * 	bw = bandwidth.
  * 	Ktype = tipo de kernel:0=gaussK,1=EpaK,2=Epa2K,3=TrianK}
- * 	den = vector el denominador de cada estimación. 
+ * 	den = vector el denominador de cada estimaci?n. 
  * 	res = result vector.
  */
 {
@@ -367,7 +367,7 @@ void locLinSmoother(double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		s0 = s1 =s2 = t0 = t1 = 0.;
@@ -386,6 +386,7 @@ void locLinSmoother(double *xeval, int *neval,
 		{
 			beta0[i] = (s2*t0 - s1*t1)/den[i];
 			beta1[i] = -(s1*t0 - s0*t1)/den[i];
+      beta1[i] /= (*bw);
 		}
 		else 
 			beta0[i] = beta1[i] = NA_VALUE;
@@ -403,7 +404,7 @@ void locLinWeights(double *xeval, int *neval,
 	n = number of data obs. length of 'x' and 'y'.
 	bw = bandwidth.
 	Ktype = tipo de kernel:0=gaussK,1=EpaK,2=Epa2K,3=TrianK}
-	den = vector el denominador de cada estimación. 
+	den = vector el denominador de cada estimaci?n. 
 	res = result matrix, len(xeval) x n dimension. 
 */
 {
@@ -414,7 +415,7 @@ void locLinWeights(double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		wsum = s1 = s2 = 0.;
@@ -465,11 +466,11 @@ void locCuadSmoother(double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	deg = 2;
 	for(i=0;i<*neval;i++)
 	{
-		/* Inicialización s,t */
+		/* Inicializaci?n s,t */
 		for(k=0;k<=deg;k++)
 		{
 			t[k] = 0.;
@@ -477,7 +478,7 @@ void locCuadSmoother(double *xeval, int *neval,
 		}
 		for(l=k;l<=2*deg;l++)
 			s[l] = 0.;
-		/* Cálculo s,t */
+		/* C?lculo s,t */
 		for(j=0;j<*n;j++)
 		{
 			aux = (x[j]-xeval[i])/(*bw);
@@ -558,28 +559,28 @@ void locPolSmoother(double *xeval, int *neval,
  * 	beta = results.
  *	NOTAS:
  *		El puto Fortran guarda las matrices por columnas!!!
- *		Vaya follón......
+ *		Vaya foll?n......
  */
 {
-	int i, j, k, l, info, sncol, tncol, job;
+	int i, j, k, l, info, sncol, job; 
 	funPtr kernel;
 	double  s[MAXS], t[MAXT], z[MAXDEG], det[2], aux, Kaux, rcond;
 	
 	sncol = (*deg)+1;
-	tncol = sncol;
+	//__TODO__ remove tncol = sncol;
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<(*neval);i++)
 	{
-		/* Inicialización s,t */
+		/* Inicializaci?n s,t */
 		for(k=0;k<=(*deg);k++)
 		{
 			t[k] = 0.;
 			for(l=k;l<=(*deg);l++)
 					s[l*sncol+k] = 0.;
 		}
-		/* Cálculo s,t */
+		/* C?lculo s,t */
 		for(j=0;j<(*n);j++)
 		{
 			aux = (x[j]-xeval[i])/(*bw);
@@ -592,18 +593,22 @@ void locPolSmoother(double *xeval, int *neval,
 			}
 		}
 		/* Compute sol.  (det ?) */	
+		rcond=TOLERANCE+1;
+		info=0;
 		dpoco_(s, &sncol, &sncol, &rcond, z, &info);
 		if( fabs(rcond)<TOLERANCE)
 		{
-			warning("Bad conditioned matrix at %f.\n",xeval[i]);
+			warning("Bad conditioned mAAAAAAtrix at %f.\n",xeval[i]);
 			for(k=0;k<=(*deg);k++)
 				beta[k*(*neval)+i] = NA_VALUE;
+			den[i] = NA_VALUE;
 		}
 		else if( info!=0 )
 		{
 			warning("Bad info result  at %f.\n",xeval[i]);
 			for(k=0;k<=(*deg);k++)
 				beta[k*(*neval)+i] = NA_VALUE;
+			den[i] = NA_VALUE;
 		}
 		else
 		{
@@ -617,7 +622,7 @@ void locPolSmoother(double *xeval, int *neval,
 				else
 					den[i] = det[0];
 			}
-			/* Colocar la solución en beta y reajustar */
+			/* Colocar la soluci?n en beta y reajustar */
 			aux = (*bw);
 			l = 1;
 			beta[i] = t[0];
@@ -651,32 +656,32 @@ void looLocPolSmoother(	double *x, double *y, double *weig, int*n,
  * 	beta = results.
  *	NOTAS:
  *		El puto Fortran guarda las matrices por columnas!!!
- *		Vaya follón......
+ *		Vaya foll?n......
  *	RETURN
  *		Leave one out local polinomial estimator. It returns the estimation 
  *	of m(x_i) but without considering the i-th observation, in order to avoid 
  *	possible biases.
  */
 {
-	int i, j, k, l, info, sncol, tncol, job;
+	int i, j, k, l, info, sncol, job;  //__TODO__ remove tncol, 
 	funPtr kernel;
 	double  s[MAXS], t[MAXT], z[MAXDEG], det[2], aux, Kaux, rcond;
 	
 	sncol = (*deg)+1;
-	tncol = sncol;
+	//__TODO__ remove tncol = sncol;
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<(*n);i++)
 	{
-		/* Inicialización s,t */
+		/* Inicializaci?n s,t */
 		for(k=0;k<=(*deg);k++)
 		{
 			t[k] = 0.;
 			for(l=k;l<=(*deg);l++)
 					s[l*sncol+k] = 0.;
 		}
-		/* Cálculo s,t */
+		/* C?lculo s,t */
 		for(j=0;j<(*n);j++)
 		{
 			if( i!=j )	/* Do not consider data x_j to estim. m(x_i) if i==j */
@@ -692,18 +697,22 @@ void looLocPolSmoother(	double *x, double *y, double *weig, int*n,
 			}
 		}
 		/* Compute sol.  (det ?) */	
-		dpoco_(s, &sncol, &sncol, &rcond, z, &info);
+		rcond=TOLERANCE+1;
+	  info=0;
+	  dpoco_(s, &sncol, &sncol, &rcond, z, &info);
 		if( fabs(rcond)<TOLERANCE)
 		{
 			warning("Bad conditioned matrix at %f.\n",x[i]);
 			for(k=0;k<=(*deg);k++)
 				beta[k*(*n)+i] = NA_VALUE;
+			den[i] = NA_VALUE;
 		}
 		else if( info!=0 )
 		{
 			warning("Bad info result  at %f.\n",x[i]);
 			for(k=0;k<=(*deg);k++)
 				beta[k*(*n)+i] = NA_VALUE;
+			den[i] = NA_VALUE;
 		}
 		else
 		{
@@ -717,7 +726,7 @@ void looLocPolSmoother(	double *x, double *y, double *weig, int*n,
 				else
 					den[i] = det[0];
 			}
-			/* Colocar la solución en beta y reajustar */
+			/* Colocar la soluci?n en beta y reajustar */
 			aux = (*bw);
 			l = 1;
 			beta[i] = t[0];
@@ -735,10 +744,10 @@ void looLocPolSmoother(	double *x, double *y, double *weig, int*n,
 
 /*
  * 	cv.c
- * 		Funciones para Validación Cruzada para el polinomio local en C.
+ * 		Funciones para Validaci?n Cruzada para el polinomio local en C.
  * 	NOTES:
  *		- Se proponen evaluadores, que se deben de llamar desde R y 
- *		pasarselos a la función 'optim()'.
+ *		pasarselos a la funci?n 'optim()'.
  * 	ERRORS:
  */
 
@@ -897,7 +906,7 @@ void simpleSqSmoother(	double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		res[i] = 0.;
@@ -921,12 +930,12 @@ void locCteSqSmoother(	double *xeval, int *neval,
  * n = number of data obs. length of 'x' and 'y'.
  * bw = bandwidth.
  * Ktype = tipo de kernel:0=gaussK,1=EpaK,2=Epa2K,3=TrianK}
- * den = vector el denominador de cada estimación. 
+ * den = vector el denominador de cada estimaci?n. 
  * res = result vector. 
  *	NOTAS:
  *		Cuidado, lo que se ponga en y[i] se pondera por weig[i], con lo que 
  *	en caso de datos sesgados no hay que poner los residuos ponderados, sino
- *	sólo los residuos...
+ *	s?lo los residuos...
  *	RETURN
  *  	Simple Loc Constant Smoother, computes a simple smoother but with a 
  *	data and kernel squared.
@@ -940,7 +949,7 @@ void locCteSqSmoother(	double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/*	operación */
+	/*	operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		/* calcular s_0 y res[] */
@@ -970,12 +979,12 @@ void locLinSqSmoother(	double *xeval, int *neval,
  * 	n = number of data obs. length of 'x' and 'y'.
  * 	bw = bandwidth.
  * 	Ktype = tipo de kernel:0=gaussK,1=EpaK,2=Epa2K,3=TrianK}
- * 	den = vector el denominador de cada estimación, sin elevar al cuadrado. 
+ * 	den = vector el denominador de cada estimaci?n, sin elevar al cuadrado. 
  * 	res = result vector.
  *	NOTAS:
  *		Cuidado, lo que se ponga en y[i] se pondera por weig[i], con lo que 
  *	en caso de datos sesgados no hay que poner los residuos ponderados, sino
- *	sólo los residuos...
+ *	s?lo los residuos...
  *	RETURN
  *  	Simple Loc linear Smoother, computes a simple smoother but with a 
  * data and kernel squared.
@@ -990,7 +999,7 @@ void locLinSqSmoother(	double *xeval, int *neval,
 	/*	Selector de kernel */
 	kernel = selKernel(*Ktype);
 	
-	/* Operación */
+	/* Operaci?n */
 	for(i=0;i<*neval;i++)
 	{
 		/* calcular los s_i */

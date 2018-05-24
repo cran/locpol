@@ -1,12 +1,15 @@
 Package: locpol
-Version: 0.6-0
-Date: 2012-10-25
-Title: Kernel local polynomial regression
-Author: Jorge Luis Ojeda Cabrera, <jojeda@unizar.es>
-Description: Computes local polynomial estimators.
-Depends: R (>= 2.5.0)
+Version: 0.7-0
+Date: 2018-05-21
+Title: Kernel Local Polynomial Regression
+Author: Jorge Luis Ojeda Cabrera <jojeda@unizar.es>
 Maintainer: Jorge Luis Ojeda Cabrera <jojeda@unizar.es>
-License: GPL-2
-Packaged: 2012-10-25 11:25:13 UTC; jorge
+Description: Computes local polynomial estimators for 
+  the regression and also density. It comprises several 
+  different utilities to handle kernel estimators.
+Depends: R (>= 2.5.0), graphics, stats
+License: GPL (>= 2)
+NeedsCompilation: yes
+Packaged: 2018-05-24 12:44:38 UTC; jorge
 Repository: CRAN
-Date/Publication: 2012-10-25 13:23:53
+Date/Publication: 2018-05-24 17:28:06 UTC

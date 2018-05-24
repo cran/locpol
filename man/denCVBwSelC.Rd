@@ -64,8 +64,7 @@ stdy <- function(size=100,rVar=rnorm,dVar=dnorm,kernel=gaussK,x=NULL)
 				time=c(Tc,ucvT,nrdT) ) )
 }
 stdy(100,kernel=gaussK) 
-stdy(100,rVar=rexp,dVar=dexp,kernel=gaussK) 
-stdy(200,rVar=rexp,dVar=dexp,kernel=gaussK)
+stdy(100,rVar=rexp,dVar=dexp,kernel=gaussK)
 ##	check stdy with other kernel, distributions	
 }
 \keyword{ nonparametric }

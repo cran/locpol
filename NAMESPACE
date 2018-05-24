@@ -1,9 +1,54 @@
-# Default NAMESPACE created by R
-# Remove the previous line if you edit this file
-
-# dlls
-useDynLib(locpol)
+# locpol Specific NAMESPACE
 
 
-# Export all names
-exportPattern(".")
+# dlls  
+useDynLib(locpol,
+          locWeightsEvalxx,simpleSmoother,parzenRossen,
+          locCteSmoother,locCteWeights,locLinSmoother,
+          locLinWeights,locCuadSmoother,locPolSmoother,
+          simpleSqSmoother,looLocPolSmoother,denCVBwEval,
+          regCVBwEvalB
+)
+
+
+# Registering S3 mehtods  
+S3method(print, locpol)
+S3method(plot, locpol)
+S3method(summary, locpol)
+S3method(fitted, locpol)
+S3method(residuals, locpol)
+S3method(predict, bivNpEst)
+S3method(plot, bivNpEst) 
+
+
+# Some imports  
+importFrom("graphics", 
+           "par", "persp", "plot", "points"
+)
+importFrom("stats", 
+           "as.formula", "coefficients", "dnorm", "integrate",
+           "lm", "model.frame", "na.omit", "optimise", "predict",
+           "resid", "residuals"
+)
+
+
+# 
+# fitted.locpol, summary.locpol, plot.locpol, print.locpol, residuals.locpol,
+# predict.bivNpEst, plot.bivNpEst,
+
+# Export all functions  
+export( locpol, confInterval, 
+        simpleSmootherC, simpleSqSmootherC, 
+        bivDens, bivReg, epaK2d, gauK2d, plotBivNpEstOpts, 
+        PRDenEstC, denCVBwSelC, thumbBw,
+        locCteSmootherC, locLinSmootherC, locCuadSmootherC, locPolSmootherC, 
+        locCteWeightsC, locLinWeightsC, locPolWeights, locWeightsEval, locWeightsEvalC,
+        looLocPolSmootherC, pluginBw, regCVBwSelC, 
+        selKernel, mu0K, mu2K, RdK, RK, K4, dom, 
+        equivKernel, gaussK, gaussKlf, CosK, SqK, biweigK, TrianK, 
+        tricubK, tricubKlf, TriweigK, QuartK, EpaK, 
+        adjNuK, cteNuK, Kconvol, compDerEst, computeK4, computeMu, computeMu0, computeRK
+)
+
+## Not exported: mayBeBwSel
+
