@@ -21,24 +21,23 @@
 	EpaK(x)
 	Epa2K(x)
 	gaussK(x)
-	\dots
 }
 
 \arguments{
   \item{x}{ Numeric vector o value. }
 }
 \details{
-  The implementation of these kernels is done by means  
+  The implementation of these kernels is done by means
 functions that can operate on vectors.
-  
+
   Most common referred numeric values for these kernels are provided as
 attributes, see \code{\link{RK}}, \code{\link{mu0K}}, etc\dots.
 }
 % \value{  }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.

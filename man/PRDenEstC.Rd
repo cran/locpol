@@ -19,27 +19,27 @@ PRDenEstC(x, xeval, bw, kernel, weig = rep(1, length(x)))
 }
 \details{
   Simple Parzen--Rosenblat univariate density estimation, computed using
-  definition. 
+  definition.
 }
 \value{
   Returns an \code{(x,den)} data frame.
-  
+
   \item{x }{Evaluation points.}
   \item{den }{Density at each \code{x} point.}
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
-\author{ 
-  Jorge Luis Ojeda Cabrera. 
+\author{
+  Jorge Luis Ojeda Cabrera.
 }
-\seealso{ 
+\seealso{
   \code{\link{density}}, that uses FT to compute a kernel density
 estimator,  \code{\link{bkde}} from package \pkg{KernSmooth} for a
 binned version, and \code{\link{bw.nrd0}}, \code{\link{dpik}}, \code{\link{denCVBwSelC}} for bandwidth selection.

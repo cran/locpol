@@ -20,12 +20,12 @@ compDerEst(x, y, p, weig = rep(1, length(y)))
   \item{weig}{ weights if they are required. }
 }
 \details{
-	See Fan and Gijbels(1996) book, Section 4.2. This implementation is 
-also considering weights. \code{compDerEst} computes the \eqn{p+1} 
+	See Fan and Gijbels(1996) book, Section 4.2. This implementation is
+also considering weights. \code{compDerEst} computes the \eqn{p+1}
 derivative of the regression function in a simple manner, assuming it
 is a polynomial in \eqn{x}. \code{thumbBw} gives a bandwidth selector
 by means of pilot estimator given by \code{compDerEst} and the mean of
-residuals. 
+residuals.
 }
 \value{
 	 \code{thumbBw} returns a single numeric value, while \code{compDerEst} returns a data frame whose components are:
@@ -34,19 +34,19 @@ residuals.
 	\item{res}{residuals for the parametric estimation.}
 	\item{der}{derivative estimation at x values.}
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
-\author{ 
-	Jorge Luis Ojeda Cabrera. 
+\author{
+	Jorge Luis Ojeda Cabrera.
 }
-\seealso{ 
+\seealso{
 	\code{\link{regCVBwSelC}}, \code{\link{pluginBw}}.
 }
 \examples{
@@ -76,7 +76,7 @@ Chapman and Hall Ltd., London (1995).
 	xevalRes <- est(piBwSel, d, xeval)
 	piIse <- ise(trueVal, xevalRes)
 	lines(xeval, xevalRes, col = "blue", lty = "dashed")
-	res <- rbind(	bw = c(cvBwSel, thBwSel, piBwSel), 
+	res <- rbind(	bw = c(cvBwSel, thBwSel, piBwSel),
 					ise = c(cvIse, thIse, piIse) )
 	colnames(res) <- c("CV", "th", "PI")
 	res

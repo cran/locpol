@@ -26,16 +26,16 @@ of previous functions. See Fan and Gijbels(1996) pages 67 and 119.
 \value{
 	Both functions returns numeric values.
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
-\author{ Jorge Luis Ojeda Cabrera. 
+\author{ Jorge Luis Ojeda Cabrera.
 }
 \seealso{ \code{\link{regCVBwSelC}}, \code{\link{pluginBw}}, \code{\link{integrate}}.
 }

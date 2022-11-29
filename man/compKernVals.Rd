@@ -11,13 +11,13 @@
   Some \R code provided to compute kernel related values.
 }
 \usage{
-	computeRK(kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]], 
+	computeRK(kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]],
 			subdivisions = 25)
-	computeK4(kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]], 
+	computeK4(kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]],
 			subdivisions = 25)
-	computeMu(i, kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]], 
+	computeMu(i, kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]],
 			subdivisions = 25)
-	computeMu0(kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]], 
+	computeMu0(kernel, lower=dom(kernel)[[1]], upper=dom(kernel)[[2]],
 			subdivisions = 25)
 	Kconvol(kernel,lower=dom(kernel)[[1]],upper=dom(kernel)[[2]],
 			subdivisions = 25)
@@ -41,10 +41,10 @@
 \item{Kconvol}{The autoconvolution of \code{K}.}
 These functions are implemented by means of \code{\link{integrate}}.
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.

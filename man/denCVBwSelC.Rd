@@ -4,18 +4,18 @@
 \alias{denCVBwSelC}
 \title{ CV bandwidth selector for density }
 \description{
-	Computes Cross Validation bandwidth selector for the 
+	Computes Cross Validation bandwidth selector for the
 Parzen--Rosenblatt density estimator...
 }
 \usage{
-denCVBwSelC(x, kernel = gaussK, weig = rep(1, length(x)), 
+denCVBwSelC(x, kernel = gaussK, weig = rep(1, length(x)),
             interval = .lokestOptInt)
 }
 \arguments{
 	\item{x}{ vector with data points. }
 	\item{kernel}{ Kernel used to perform the estimation, see \code{\link{Kernels}}. }
 	\item{weig}{ Vector of weights for observations. }
-	\item{interval}{ A range of values where to look for the bandwidth 
+	\item{interval}{ A range of values where to look for the bandwidth
 parameter. }
 }
 \details{
@@ -24,18 +24,18 @@ parameter. }
 \value{
 	A numeric value with the bandwidth.
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
-\author{ Jorge Luis Ojeda Cabrera. 
+\author{ Jorge Luis Ojeda Cabrera.
 }
-\seealso{ \code{\link{bw.nrd0}}, \code{\link{dpik}}.
+\seealso{ \code{\link{bw.nrd0}}, \code{\link[KernSmooth]{dpik}}.
 }
 \examples{
 stdy <- function(size=100,rVar=rnorm,dVar=dnorm,kernel=gaussK,x=NULL)
@@ -60,12 +60,12 @@ stdy <- function(size=100,rVar=rnorm,dVar=dnorm,kernel=gaussK,x=NULL)
 		lines(xevalDenNrd,col="grey")
 	}
 	return( cbind(  bwVal=c(evalC=dbwc,ucvBw=ucvBw,nrdBw=nrdBw),
-				mse=c(dencMSE,ucvMSE,nrdMSE), 
+				mse=c(dencMSE,ucvMSE,nrdMSE),
 				time=c(Tc,ucvT,nrdT) ) )
 }
-stdy(100,kernel=gaussK) 
+stdy(100,kernel=gaussK)
 stdy(100,rVar=rexp,dVar=dexp,kernel=gaussK)
-##	check stdy with other kernel, distributions	
+##	check stdy with other kernel, distributions
 }
 \keyword{ nonparametric }
 \keyword{ smooth }

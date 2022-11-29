@@ -22,8 +22,8 @@
   \item{K}{ A kernel as given in \code{\link{Kernels}} }
 }
 \details{
-	Most of these functions are implemented as an attribute 
-of every kernel. For the computations of the numeric value for these 
+	Most of these functions are implemented as an attribute
+of every kernel. For the computations of the numeric value for these
 quantities, see references.
 }
 \value{
@@ -35,18 +35,18 @@ quantities, see references.
 \item{dom}{The support of \code{K}.}
 \item{K4}{The fourth order autoconvolution of \code{K} at \eqn{x=0}{x=0}.}
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
 \author{ Jorge Luis Ojeda Cabrera.}
-\seealso{ 
-\code{\link{Kernels}}, \link{Compute kernel values}. 
+\seealso{
+\code{\link{Kernels}}, \link{Compute kernel values}.
 }
 \examples{
 	##	Note that lower and upper params are set in the definition to

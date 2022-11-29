@@ -27,20 +27,20 @@ single bandwidth the ASE, and a call to \code{optimise} on a given interval.
 \value{
 	A numeric value.
 }
-\references{ 
+\references{
 Fan, J. and Gijbels, I.
 \emph{ Local polynomial modelling and its applications\/}.
-Chapman \& Hall, London (1996).
+Chapman & Hall, London (1996).
 
 H\"ardle W.(1990)
-\emph{ Smoothing techniques}. 
+\emph{ Smoothing techniques}.
 Springer Series in Statistics, New York (1991).
 
 Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
-\author{ Jorge Luis Ojeda Cabrera. 
+\author{ Jorge Luis Ojeda Cabrera.
 }
 \seealso{ \code{\link{thumbBw}}, \code{\link{pluginBw}}.
 }
@@ -72,7 +72,7 @@ Chapman and Hall Ltd., London (1995).
 	xevalRes <- est(piBwSel, d, xeval)
 	piIse <- ise(trueVal, xevalRes)
 	lines(xeval, xevalRes, col = "blue", lty = "dashed")
-	res <- rbind(	bw = c(cvBwSel, thBwSel, piBwSel), 
+	res <- rbind(	bw = c(cvBwSel, thBwSel, piBwSel),
 					ise = c(cvIse, thIse, piIse) )
 	colnames(res) <- c("CV", "th", "PI")
 	res
