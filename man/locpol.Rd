@@ -83,7 +83,7 @@ Statistics & Probability Letters, 22, num. 2, pp. 121-129
 }
 \author{ Jorge Luis Ojeda Cabrera.
 }
-\seealso{ \code{\link{locpoly}} from package \pkg{KernSmooth},
+\seealso{ \code{\link[KernSmooth]{locpoly}} from package \pkg{KernSmooth},
 \code{\link{ksmooth}} and \code{\link{loess}} in \pkg{stats} (but from earlier package \code{modreg}).
 }
 \examples{

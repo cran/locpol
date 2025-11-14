@@ -57,11 +57,7 @@ Wand, M.~P. and Jones, M.~C.
 \emph{ Kernel smoothing\/}.
 Chapman and Hall Ltd., London (1995).
 }
-\author{ Jorge Luis Ojeda Cabrera.
-}
-\seealso{ \code{\link{locpoly}} from package \pkg{KernSmooth},
-\code{\link{ksmooth}} and \code{\link{loess}} in \pkg{stats} (but from earlier package \code{modreg}).
-}
+\author{ Jorge Luis Ojeda Cabrera. }
 \examples{
 N <- 100
 xeval <- 0:10/10

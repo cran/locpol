@@ -41,8 +41,8 @@ Chapman and Hall Ltd., London (1995).
 }
 \seealso{
   \code{\link{density}}, that uses FT to compute a kernel density
-estimator,  \code{\link{bkde}} from package \pkg{KernSmooth} for a
-binned version, and \code{\link{bw.nrd0}}, \code{\link{dpik}}, \code{\link{denCVBwSelC}} for bandwidth selection.
+estimator,  \code{\link[KernSmooth]{bkde}} from package \pkg{KernSmooth} for a
+binned version, and \code{\link{bw.nrd0}}, \code{\link[KernSmooth]{dpik}}, \code{\link{denCVBwSelC}} for bandwidth selection.
 }
 \examples{
 	N <- 100
